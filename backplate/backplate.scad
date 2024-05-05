@@ -16,7 +16,7 @@ screw_head_depth = 2.5;
 
 wires_slot_height = 12;
 wires_slot_width = 100;
-wires_top_edge_offset = 35;
+wires_top_edge_offset = 45;
 
 inner_size = (plate_size) * led_count_side + plate_wall;
 total_backplate_size = inner_size + shell_side * 2;

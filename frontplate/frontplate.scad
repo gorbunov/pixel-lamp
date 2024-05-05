@@ -35,97 +35,75 @@ internal_height = pattern_repeat_y * led_section_height + separation_y;
 
 
 module led_section() {
-difference() {
-cube([base_side, base_side, total_height]);
-translate([0, 0, cutout_depth]) {
-    cube([cutout_size_x, cutout_size_y, separation_z]);
-    }
-  translate([base_side / 3 - base_side / 12, 0, total_height - resistors_height]) {
-    color("red") cube([base_side / 3, base_side, separation_z]);
- }
+    difference() {
+        cube([base_side, base_side, total_height]);
+        translate([0, 0, cutout_depth]) {
+            cube([cutout_size_x, cutout_size_y, separation_z]);
+        }
+        translate([base_side / 3 - base_side / 12, 0, total_height - resistors_height]) {
+            color("red") cube([base_side / 3, base_side, separation_z]);
+        }
 
- }
+    }
 }
 
 module internal_section() {
-for(ty=[0:pattern_repeat_y-1]) {
-  for(tx=[0:pattern_repeat_x-1]) {
-     translate([tx* base_side, ty * base_side, 0]) 
-     led_section();
-  }
-}
-// panel side enclosing
-translate([-separation_x, -separation_y, 0]) {
-    // bottom edge
-    cube([(base_side * pattern_repeat_x) + separation_x, separation_y, total_height]);
-    // left edge
-    cube([separation_x, (base_side * pattern_repeat_y) + separation_y, total_height]);
-}
+    for (ty = [0:pattern_repeat_y - 1]) {
+        for (tx = [0:pattern_repeat_x - 1]) {
+            translate([tx * base_side, ty * base_side, 0])
+                led_section();
+        }
+    }
+    // panel side enclosing
+    translate([-separation_x, -separation_y, 0]) {
+        // bottom edge
+        cube([(base_side * pattern_repeat_x) + separation_x, separation_y, total_height]);
+        // left edge
+        cube([separation_x, (base_side * pattern_repeat_y) + separation_y, total_height]);
+    }
 
 }
 
 module outer_shell() {
-// outer shell
-translate([-shell_side - separation_x, -shell_side - separation_y, 0]) {
- cube([shell_side, base_side * pattern_repeat_y + shell_side + separation_y, shell_height]);
- cube([base_side  * pattern_repeat_x + shell_side + separation_x, shell_side, shell_height]);
-}
+    // outer shell
+    translate([-shell_side - separation_x, -shell_side - separation_y, 0]) {
+        cube([shell_side, base_side * pattern_repeat_y + shell_side + separation_y, shell_height]);
+        cube([base_side * pattern_repeat_x + shell_side + separation_x, shell_side, shell_height]);
+    }
 
-translate([base_side * pattern_repeat_x, -shell_side - separation_y, 0]) {
- cube([shell_side, base_side * pattern_repeat_y + shell_side* 2 + separation_y, shell_height]);
-}
-translate([-shell_side - separation_x, base_side * pattern_repeat_y, 0]) {
- cube([base_side * pattern_repeat_x + shell_side + separation_x, shell_side, shell_height]);
- }
- 
+    translate([base_side * pattern_repeat_x, -shell_side - separation_y, 0]) {
+        cube([shell_side, base_side * pattern_repeat_y + shell_side * 2 + separation_y, shell_height]);
+    }
+    translate([-shell_side - separation_x, base_side * pattern_repeat_y, 0]) {
+        cube([base_side * pattern_repeat_x + shell_side + separation_x, shell_side, shell_height]);
+    }
+
 }
 
 module screw_hole() {
-translate([0, 0, shell_height - screw_depth]) {
-    #cylinder(h=screw_depth, d=screw_size, $fn=24);
+    translate([0, 0, shell_height - screw_depth]) {
+        #cylinder(h = screw_depth, d = screw_size, $fn = 24);
     }
 }
 
 module shell() {
 
-translate([shell_side+separation_x, shell_side+separation_y, 0]) {
-internal_section();
-color("aliceblue") outer_shell();
-}
+    translate([shell_side + separation_x, shell_side + separation_y, 0]) {
+        internal_section();
+        color("aliceblue") outer_shell();
+    }
 }
 difference() {
-shell();
-translate([led_section_height-(screw_size+separation_x)/2, shell_side/2, 0]) {
-for(tx=[0:pattern_repeat_x/screw_per_side -1]) {
-    translate([tx*screw_per_side* (base_side), 0, 0]) {
-    screw_hole();
-    translate([0, internal_height-screw_size, 0]) {
-    screw_hole();
+    shell();
+    translate([led_section_height - (screw_size + separation_x) / 2, shell_side / 2, 0]) {
+        for (tx = [0:pattern_repeat_x / screw_per_side - 1]) {
+            translate([tx * screw_per_side * (base_side), 0, 0]) {
+                screw_hole();
+            }
+                translate([0, internal_height - screw_size, 0]) {
+                    screw_hole();
+                }
+
+        }
     }
-    }
 }
-}
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
