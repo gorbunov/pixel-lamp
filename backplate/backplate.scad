@@ -14,7 +14,7 @@ $fn = 24;
 screw_head_dk = 5;
 screw_head_depth = 2.5;
 
-inner_size = (plate_size + plate_wall) * led_count_side + plate_wall;
+inner_size = (plate_size) * led_count_side + plate_wall;
 total_backplate_size = inner_size + shell_side * 2;
 
 difference() {

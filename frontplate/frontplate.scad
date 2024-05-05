@@ -21,7 +21,7 @@ cutout_depth = total_height - separation_z;
 // screw_holes
 screw_size = 2.5; // M2.5
 screw_depth = 5;
-screw_per_side = 5;
+screw_per_side = 6;
 
 // sections repeat count
 pattern_repeat_x = 16;
@@ -96,8 +96,8 @@ color("aliceblue") outer_shell();
 difference() {
 shell();
 translate([led_section_height-(screw_size+separation_x)/2, shell_side/2, 0]) {
-for(tx=[0:pattern_repeat_x/led_per_screw -1]) {
-    translate([tx*led_per_screw* (base_side), 0, 0]) {
+for(tx=[0:pattern_repeat_x/screw_per_side -1]) {
+    translate([tx*screw_per_side* (base_side), 0, 0]) {
     screw_hole();
     translate([0, internal_height-screw_size, 0]) {
     screw_hole();
