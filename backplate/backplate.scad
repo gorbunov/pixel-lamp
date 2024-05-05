@@ -5,7 +5,7 @@ plate_wall = 1.6;
 shell_side = 4;
 additional_shell = 2;
 
-total_backplate_height = 5;
+total_backplate_height = 4;
 inner_backplate_height = 3;
 
 screw_size = 2.5;
@@ -14,12 +14,25 @@ $fn = 24;
 screw_head_dk = 5;
 screw_head_depth = 2.5;
 
+wires_slot_height = 12;
+wires_slot_width = 100;
+wires_top_edge_offset = 35;
+
 inner_size = (plate_size) * led_count_side + plate_wall;
 total_backplate_size = inner_size + shell_side * 2;
 
 difference() {
     backplate();
-    screw_holes();
+    union() {
+        backplate_cutouts();
+        screw_holes();
+    }
+}
+
+module backplate_cutouts() {
+    translate([(total_backplate_size - wires_slot_width)/2, total_backplate_size - wires_top_edge_offset, 0]) {
+        color("orange") cube([wires_slot_width,wires_slot_height, total_backplate_height]);
+    }
 }
 
 module backplate() {
